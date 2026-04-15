@@ -6,13 +6,13 @@ A Chrome extension that reliably refreshes the currently active tab at a precise
 
 This extension is built for any situation where a registration window opens at a specific, known time and speed is everything:
 
-- 🏕️ **Summer camp registration** — Popular camps sell out within seconds of opening. Schedule your refresh to fire the moment spots open.
-- 🏊 **Swimming & sports leagues** — Municipal pools and rec leagues often release session registrations at a fixed time (e.g. 9:00 AM sharp).
-- 🎓 **School & university course enrollment** — Get ahead of the queue when course registration opens for a new semester.
-- 🎟️ **Concert & event tickets** — Pre-stage the ticketing page and let the extension reload it the instant sales go live.
-- 👟 **Sneaker & limited product drops** — Refresh a product page exactly when a drop goes live to beat bots and crowds.
-- 🏥 **Medical appointment booking** — Grab coveted appointment slots the moment a new availability window opens.
-- 🏌️ **Golf & court tee times** — Many golf courses and tennis clubs release tee times exactly 7 days in advance at a set time.
+-  **Summer camp registration** — Popular camps sell out within seconds of opening. Schedule your refresh to fire the moment spots open.
+-  **Swimming & sports leagues** — Municipal pools and rec leagues often release session registrations at a fixed time (e.g. 9:00 AM sharp).
+-  **School & university course enrollment** — Get ahead of the queue when course registration opens for a new semester.
+-  **Concert & event tickets** — Pre-stage the ticketing page and let the extension reload it the instant sales go live.
+-  **Sneaker & limited product drops** — Refresh a product page exactly when a drop goes live to beat bots and crowds.
+-  **Medical appointment booking** — Grab coveted appointment slots the moment a new availability window opens.
+-  **Golf & court tee times** — Many golf courses and tennis clubs release tee times exactly 7 days in advance at a set time.
 
 ## Installation
 
