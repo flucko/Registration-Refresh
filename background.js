@@ -3,18 +3,26 @@ let timers = {};
 // When waking up, restore timers
 chrome.storage.local.get(['refreshJobs'], (result) => {
     const jobs = result.refreshJobs || {};
-    Object.keys(jobs).forEach(tabId => {
-        scheduleRefresh(parseInt(tabId), jobs[tabId]);
+    Object.keys(jobs).forEach(tabIdStr => {
+        const tabId = parseInt(tabIdStr);
+        scheduleRefresh(tabId, jobs[tabIdStr]);
     });
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name.startsWith('refresh_')) {
         const tabId = parseInt(alarm.name.split('_')[1]);
+        const key = String(tabId);
         chrome.storage.local.get(['refreshJobs'], (result) => {
             const jobs = result.refreshJobs || {};
-            if (jobs[tabId]) {
-                scheduleRefresh(tabId, jobs[tabId]);
+            if (jobs[key]) {
+                const targetTimestamp = jobs[key];
+                // If we're at or past the target (e.g. device woke from sleep), fire immediately
+                if (Date.now() >= targetTimestamp) {
+                    executeRefresh(tabId);
+                } else {
+                    scheduleRefresh(tabId, targetTimestamp);
+                }
             }
         });
     }
@@ -51,10 +59,11 @@ function executeRefresh(tabId) {
         }
     });
 
-    // Remove job
+    // Remove job using string key for consistency
+    const key = String(tabId);
     chrome.storage.local.get(['refreshJobs'], (result) => {
         const jobs = result.refreshJobs || {};
-        delete jobs[tabId];
+        delete jobs[key];
         chrome.storage.local.set({ refreshJobs: jobs });
     });
 
@@ -66,9 +75,10 @@ function executeRefresh(tabId) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'schedule') {
         const { tabId, targetTimestamp } = request;
+        const key = String(tabId);
         chrome.storage.local.get(['refreshJobs'], (result) => {
             const jobs = result.refreshJobs || {};
-            jobs[tabId] = targetTimestamp;
+            jobs[key] = targetTimestamp;
             chrome.storage.local.set({ refreshJobs: jobs }, () => {
                 scheduleRefresh(tabId, targetTimestamp);
                 sendResponse({ success: true });
@@ -77,9 +87,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true; // keeps the message channel open for sendResponse
     } else if (request.action === 'cancel') {
         const { tabId } = request;
+        const key = String(tabId);
         chrome.storage.local.get(['refreshJobs'], (result) => {
             const jobs = result.refreshJobs || {};
-            delete jobs[tabId];
+            delete jobs[key];
             chrome.storage.local.set({ refreshJobs: jobs }, () => {
                 if (timers[tabId]) {
                     clearTimeout(timers[tabId]);

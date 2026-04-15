@@ -44,6 +44,12 @@ function setUIActive(targetTimestamp) {
     document.getElementById('cancelBtn').classList.remove('hidden');
     
     document.getElementById('countdown').classList.remove('hidden');
+    document.getElementById('errorMsg').classList.add('hidden');
+
+    // Disable inputs while active
+    ['hour', 'minute', 'second'].forEach(id => {
+        document.getElementById(id).disabled = true;
+    });
     
     // Clear existing interval
     if (updateInterval) clearInterval(updateInterval);
@@ -80,6 +86,11 @@ function setUIInactive() {
     
     document.getElementById('countdown').classList.add('hidden');
     
+    // Re-enable inputs
+    ['hour', 'minute', 'second'].forEach(id => {
+        document.getElementById(id).disabled = false;
+    });
+
     if (updateInterval) {
         clearInterval(updateInterval);
         updateInterval = null;
@@ -87,9 +98,15 @@ function setUIInactive() {
 }
 
 function onStart() {
-    const h = parseInt(document.getElementById('hour').value) || 0;
-    const m = parseInt(document.getElementById('minute').value) || 0;
-    const s = parseInt(document.getElementById('second').value) || 0;
+    const h = parseInt(document.getElementById('hour').value);
+    const m = parseInt(document.getElementById('minute').value);
+    const s = parseInt(document.getElementById('second').value);
+
+    if (isNaN(h) || isNaN(m) || isNaN(s) ||
+        h < 0 || h > 23 || m < 0 || m > 59 || s < 0 || s > 59) {
+        showError('Please enter a valid time (HH 0-23, MM/SS 0-59).');
+        return;
+    }
     
     const now = new Date();
     const target = new Date();
@@ -131,4 +148,10 @@ function scheduleRefresh(targetTimestamp) {
             setUIActive(targetTimestamp);
         }
     });
+}
+
+function showError(message) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = message;
+    el.classList.remove('hidden');
 }

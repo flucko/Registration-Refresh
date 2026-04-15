@@ -91,6 +91,21 @@ h2 {
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+}
+
+/* Hide browser number spinners */
+.input-group input::-webkit-inner-spin-button,
+.input-group input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-group input:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
 }
 
 .input-group input:focus {
@@ -109,6 +124,14 @@ h2 {
 
 .hidden {
     display: none !important;
+}
+
+.error-msg {
+    text-align: center;
+    font-size: 13px;
+    color: #ef4444;
+    margin: 0;
+    font-weight: 500;
 }
 
 .buttons {

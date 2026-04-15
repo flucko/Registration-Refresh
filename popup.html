@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Registration Refresh</title>
     <link rel="stylesheet" href="style.css">
@@ -16,19 +16,20 @@
         <div class="time-inputs">
             <div class="input-group">
                 <label>Hour</label>
-                <input type="number" id="hour" min="0" max="23" placeholder="HH">
+                <input type="number" id="hour" min="0" max="23" step="1" inputmode="numeric" placeholder="HH">
             </div>
             <div class="input-group">
                 <label>Min</label>
-                <input type="number" id="minute" min="0" max="59" placeholder="MM">
+                <input type="number" id="minute" min="0" max="59" step="1" inputmode="numeric" placeholder="MM">
             </div>
             <div class="input-group">
                 <label>Sec</label>
-                <input type="number" id="second" min="0" max="59" placeholder="SS">
+                <input type="number" id="second" min="0" max="59" step="1" inputmode="numeric" placeholder="SS">
             </div>
         </div>
 
         <p id="countdown" class="countdown hidden"></p>
+        <p id="errorMsg" class="error-msg hidden"></p>
 
         <div class="buttons">
             <button id="startBtn" class="primary">Start</button>
